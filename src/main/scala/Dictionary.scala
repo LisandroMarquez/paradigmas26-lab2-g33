@@ -27,7 +27,7 @@ object Dictionary {
    * @param entityType tipo de entidad: "Person", "University", "ProgrammingLanguage", etc.
    * @return lista de NamedEntity del tipo correspondiente
    *
-   * TODO (Ejercicio 2): Implementar este método.
+   * (Ejercicio 2): Implementar este método.
    *
    *   Pasos sugeridos:
    *     1. Leer las líneas del archivo
@@ -38,7 +38,19 @@ object Dictionary {
    *
    */
   def loadFromFile(filePath: String, entityType: String): List[NamedEntity] = {
-    ???
+    
+    FileIO.readLines(filePath).map(linea => entityType match {
+
+      // Uso de match para decidir qué clase de entidad crear según el tipo indicado.
+
+      case "Person" => new Person(linea)
+      case "University" => new University(linea)
+      case "Organization" => new Organization(linea)
+      case "Place" => new Place(linea)
+      case "Technology" => new Technology(linea)
+      case "ProgrammingLanguage" => new ProgrammingLanguage(linea)
+      case _ => throw new IllegalArgumentException(s"Tipo de entidad desconocido: $linea")
+    })
   }
 
   /**
@@ -46,10 +58,21 @@ object Dictionary {
    *
    * @return lista con todas las entidades de todos los diccionarios
    *
-   * TODO (Ejercicio 2): Implementar este método.
+   * (Ejercicio 2): Implementar este método.
    *
    */
   def loadAll(): List[NamedEntity] = {
-    ???
+
+    // Cargar cada diccionario por separado usando loadFromFile, luego combinar los resultados.
+
+    val languages = loadFromFile("data/languages.txt", "ProgrammingLanguage")
+    val organizations = loadFromFile("data/organizations.txt", "Organization")
+    val people = loadFromFile("data/people.txt", "Person")
+    val places = loadFromFile("data/places.txt", "Place" )
+    val universities = loadFromFile("data/universities.txt", "University")
+    
+    val All = languages ++ organizations ++ people ++ places ++ universities
+
+    All
   }
 }
