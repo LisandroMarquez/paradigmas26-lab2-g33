@@ -35,7 +35,17 @@ object Analyzer {
    *                  )
    */
   def detectEntities(text: String, dictionary: List[NamedEntity]): List[NamedEntity] = {
-    ???
+    /* 
+    Filtramos las entidades tal y como pide la actividad:
+    - La funcion contains nos devuelve un booleano si es que el 
+    texto contiene el argumento que le pusimo (el texto de la entidad en este caso).
+
+    - La funcion filter dejara en la lista solamente aquellas entidades que aparezcan en el texto, 
+    sin repeticiones.  
+
+    - Guardamos el resultado en filter_dictionary.
+    */
+    dictionary.filter(ent => text.contains(ent.text))
   }
 
   /**
