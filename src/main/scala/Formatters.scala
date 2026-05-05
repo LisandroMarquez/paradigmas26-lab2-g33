@@ -31,7 +31,18 @@ object Formatters {
    *   Si no se detectaron entidades, mostrar un mensaje indicándolo.
    */
   def formatNERResult(postTitle: String, entities: List[NamedEntity]): String = {
-    ???
+    //& Parse entities
+    val entityParsed = entities match {
+      case Nil => "No hay coincidencias\n"
+      case _ => entities.foldLeft(""){
+        (acc, entity) => acc + entity.describe + "\n  " 
+      }
+    }
+
+    //* Return string
+    s"""Post: '$postTitle'
+Entidades detectadas:
+  $entityParsed"""
   }
 
   /**
