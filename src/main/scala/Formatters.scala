@@ -32,11 +32,13 @@ object Formatters {
    */
   def formatNERResult(postTitle: String, entities: List[NamedEntity]): String = {
     //& Parse entities
-    val entityParsed = entities match {
-      case Nil => "No hay coincidencias\n"
-      case _ => entities.foldLeft(""){
-        (acc, entity) => acc + entity.describe + "\n  " 
+    val entityParsed = 
+      if (entities.nonEmpty)
+        entities.foldLeft(""){
+          (acc, entity) => acc + entity.describe + "\n  " 
       }
+      else
+        "No hay coincidencias\n"
     }
 
     //* Return string

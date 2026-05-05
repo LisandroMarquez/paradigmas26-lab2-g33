@@ -34,15 +34,15 @@ object Main {
     //     2. Formatear y mostrar el resultado
 
     //+ Print formated post
-    allPosts.map{
-      case (_, titles) => 
-        titles.map{
-          title => 
-          val detectedEnt = Analyzer.detectEntities(title, dictionary)
-          val res = Formatters.formatNERResult(title, detectedEnt)
-          println(res)
-        }
-    }
+    val results = allPosts.flatMap {
+        case (_, titles) =>
+          titles.map { title =>
+            val detectedEnt = detectEntities(title, dictionary)
+            formatNERResult(title, detectedEnt)
+          }
+      }
+
+    results.foreach(println)
 
     // ------------------------------------------------------------------
     // Paso 4: Estadísticas globales
