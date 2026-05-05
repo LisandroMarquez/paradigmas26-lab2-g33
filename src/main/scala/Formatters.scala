@@ -39,7 +39,6 @@ object Formatters {
       }
       else
         "No hay coincidencias\n"
-    }
 
     //* Return string
     s"""Post: '$postTitle'

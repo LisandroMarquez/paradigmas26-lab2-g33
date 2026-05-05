@@ -37,8 +37,8 @@ object Main {
     val results = allPosts.flatMap {
         case (_, titles) =>
           titles.map { title =>
-            val detectedEnt = detectEntities(title, dictionary)
-            formatNERResult(title, detectedEnt)
+            val detectedEnt = Analyzer.detectEntities(title, dictionary)
+            Formatters.formatNERResult(title, detectedEnt)
           }
       }
 
