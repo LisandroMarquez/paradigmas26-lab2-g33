@@ -45,7 +45,13 @@ object Analyzer {
 
     - Guardamos el resultado en filter_dictionary.
     */
-    dictionary.filter(ent => text.contains(ent.text))
+
+     val lowerText = " " + text.toLowerCase + " "
+
+    dictionary.filter { ent =>
+      val entityText = " " + ent.text.toLowerCase + " "
+      lowerText.contains(entityText)
+    }
   }
 
   /**

@@ -66,12 +66,16 @@ Entidades detectadas:
 
     val sorted = counts.toList
       .sortBy { case (_, cantidad) => -cantidad }
-
-    val lines = sorted
-      .map { case (tipo, cantidad) => s"$tipo: $cantidad" }
-      .mkString("\n")
-
+    
+    val lines =
+      if (sorted.nonEmpty) 
+        sorted 
+        .map { case (tipo, cantidad) => s"$tipo: $cantidad" }
+        .mkString("\n") 
+      else 
+        "No hay resultados para mostrar \n"
     s"""=== Estadisticas de entidades ===
-      |$lines""".stripMargin
+      |$lines\n""".stripMargin
+    
   }
 }

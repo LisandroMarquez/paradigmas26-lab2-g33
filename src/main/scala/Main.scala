@@ -52,5 +52,16 @@ object Main {
     //   2. Contar por tipo
     //   3. Mostrar el resumen
 
+    // Mostramos el resultado de las entidades detectadas
+    val allEntities =  
+      allPosts.flatMap {
+        case (_, titles) =>
+          titles.flatMap { title =>
+            Analyzer.detectEntities(title, dictionary)
+          }
+      } 
+    val countResults = Analyzer.countByType(allEntities)
+    val globalResults = Formatters.formatEntityStats(countResults)
+    println(globalResults)
   }
 }
