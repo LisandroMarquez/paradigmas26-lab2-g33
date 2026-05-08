@@ -37,16 +37,29 @@ object Analyzer {
   def detectEntities(text: String, dictionary: List[NamedEntity]): List[NamedEntity] = {
     /* 
     Filtramos las entidades tal y como pide la actividad:
+    
+    - Usamos replace para ciertos casos borde. 
+
+    - Separamos las palabras del texto en espacios junto con las entidades para que contains
+    los detecte de forma correcta.
+
+    - Usamos tambien .toLowerCase para que se detecten también aquellas entidades que estan
+    en minúscula
+
     - La funcion contains nos devuelve un booleano si es que el 
-    texto contiene el argumento que le pusimo (el texto de la entidad en este caso).
+    texto contiene el argumento que le pusimos (el texto de la entidad en este caso).
 
-    - La funcion filter dejara en la lista solamente aquellas entidades que aparezcan en el texto, 
+    - La función filter dejará en la lista solamente aquellas entidades que aparezcan en el texto, 
     sin repeticiones.  
-
-    - Guardamos el resultado en filter_dictionary.
     */
 
-     val lowerText = " " + text.toLowerCase + " "
+    val replacedText = text
+      .replace('-', ' ')
+      .replace('?', ' ')
+      .replace('!', ' ')
+      .replace('.', ' ') 
+      .replace(',', ' ')
+    val lowerText = " " + replacedText.toLowerCase + " "
 
     dictionary.filter { ent =>
       val entityText = " " + ent.text.toLowerCase + " "
