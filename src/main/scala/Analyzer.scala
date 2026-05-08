@@ -36,34 +36,26 @@ object Analyzer {
    */
   def detectEntities(text: String, dictionary: List[NamedEntity]): List[NamedEntity] = {
     /* 
-    Filtramos las entidades tal y como pide la actividad:
-    
-    - Usamos replace para ciertos casos borde. 
+    Filtramos las palabras del texto con:
+    - Regex: [\\p{L}0-9]+
+        @ [abc]: todo lo que sea "a", "b" o "c"
+        @ \p{L}: cualquier letra Unicode
+        @ 0-9: cualquier digito
+        @ �Por qu� doble \\? Representa \ en Strings de Scala y es necesario para su correcto funcionamiento idk
+        @ +: Encuentra uno o varios de estos caracteres especificados dentro de []
+    - findAllIn: Busca *todas* las coincidencias del regex (devuelve algo del tipo Iterator[String])
+    - toSet: igual a listas pero sin repeticiones (convierte a Set[String])
 
-    - Separamos las palabras del texto en espacios junto con las entidades para que contains
-    los detecte de forma correcta.
-
-    - Usamos tambien .toLowerCase para que se detecten también aquellas entidades que estan
-    en minúscula
-
-    - La funcion contains nos devuelve un booleano si es que el 
-    texto contiene el argumento que le pusimos (el texto de la entidad en este caso).
-
-    - La función filter dejará en la lista solamente aquellas entidades que aparezcan en el texto, 
-    sin repeticiones.  
+    Luego filtramos el diccionario corroborando que si se encuentra la entidad dentro del texto, permanece en el diccionario devuelto
     */
 
-    val replacedText = text
-      .replace('-', ' ')
-      .replace('?', ' ')
-      .replace('!', ' ')
-      .replace('.', ' ') 
-      .replace(',', ' ')
-    val lowerText = " " + replacedText.toLowerCase + " "
+    val words =
+      "[\\p{L}0-9]+".r
+        .findAllIn(text.toLowerCase)
+        .toSet
 
     dictionary.filter { ent =>
-      val entityText = " " + ent.text.toLowerCase + " "
-      lowerText.contains(entityText)
+      words.contains(ent.text.toLowerCase)
     }
   }
 
