@@ -63,10 +63,14 @@ Entidades detectadas:
    *     University: 2
    */
   def formatEntityStats(counts: Map[String, Int]): String = {
-
-    val sorted = counts.toList
-      .sortBy { case (_, cantidad) => -cantidad }
+    //& Format sort counts
+    val sorted = counts
+      .toList
+      .sortBy {
+        case (_, cantidad) => - cantidad
+      }
     
+    //$ Parse lines to display as expected
     val lines =
       if (sorted.nonEmpty) 
         sorted 
@@ -74,6 +78,8 @@ Entidades detectadas:
         .mkString("\n") 
       else 
         "No hay resultados para mostrar \n"
+    
+    //* Return string
     s"""=== Estadisticas de entidades ===
       |$lines\n""".stripMargin
     
